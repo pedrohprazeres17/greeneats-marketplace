@@ -19,12 +19,16 @@ Este projeto foi desenvolvido como parte de uma avaliação acadêmica e impleme
 ## 📁 Estrutura do Projeto
 
 ```
-P2/
-├── app.py                  # Backend Flask com API REST
+greeneats-marketplace/
+├── app.py                      # Backend Flask com API REST
+├── config_local.py             # Credenciais locais (NÃO versionado)
+├── config_local.py.example     # Template de configuração
+├── requirements.txt            # Dependências Python
+├── .gitignore                  # Arquivos ignorados pelo Git
 ├── templates/
-│   └── index.html         # Frontend (Painel do Agricultor)
-├── agile_docs.md          # Documentação Ágil (User Stories + Kanban)
-└── README.md              # Este arquivo
+│   └── index.html             # Frontend (Painel do Agricultor)
+├── agile_docs.md              # Documentação Ágil (User Stories + Kanban)
+└── README.md                  # Este arquivo
 ```
 
 ## 🔧 Instalação
@@ -35,6 +39,12 @@ P2/
 
 ### Passo 1: Instalar Dependências
 
+**Opção 1 (Recomendada):** Usar requirements.txt
+```bash
+pip install -r requirements.txt
+```
+
+**Opção 2:** Instalar manualmente
 ```bash
 pip install flask requests flask-cors
 ```
