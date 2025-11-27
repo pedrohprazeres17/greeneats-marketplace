@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenEats - Painel do Agricultor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #10b981;
+            --dark-green: #059669;
+            --light-green: #34d399;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --error-red: #ef4444;
+            --success-green: #22c55e;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h2::before {
+            content: '🌱';
+            font-size: 1.8rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-input);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error-red);
+            color: var(--error-red);
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--success-green);
+            color: var(--success-green);
+        }
+
+        .alert ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--shadow);
+            border-color: var(--primary-green);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+        }
+
+        .product-content {
+            padding: 1.25rem;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .product-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--primary-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state::before {
+            content: '🌾';
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌱 GreenEats</h1>
+            <p>Painel do Agricultor - Marketplace de Comida Saudável</p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Form Card -->
+            <div class="card">
+                <h2>Cadastrar Produto</h2>
+                
+                <div id="alertContainer"></div>
+
+                <form id="produtoForm">
+                    <div class="form-group">
+                        <label for="titulo">Título *</label>
+                        <input type="text" id="titulo" name="titulo" required placeholder="Ex: Maçã Orgânica">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao" name="descricao" placeholder="Descreva seu produto..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preco">Preço (R$) *</label>
+                        <input type="number" id="preco" name="preco" step="0.01" required placeholder="0.00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria">Categoria *</label>
+                        <select id="categoria" name="categoria" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="Fruta">🍎 Fruta</option>
+                            <option value="Legume">🥕 Legume</option>
+                            <option value="Verdura">🥬 Verdura</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imagem_url">URL da Imagem</label>
+                        <input type="url" id="imagem_url" name="imagem_url" placeholder="https://exemplo.com/imagem.jpg">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        ✨ Cadastrar Produto
+                    </button>
+                </form>
+            </div>
+
+            <!-- Products List Card -->
+            <div class="card">
+                <h2>Produtos Cadastrados</h2>
+                <div id="produtosContainer">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Carregando produtos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para exibir alertas
+        function mostrarAlerta(tipo, mensagem, erros = []) {
+            const alertContainer = document.getElementById('alertContainer');
+            
+            let alertHTML = `<div class="alert alert-${tipo}">`;
+            alertHTML += `<strong>${mensagem}</strong>`;
+            
+            if (erros.length > 0) {
+                alertHTML += '<ul>';
+                erros.forEach(erro => {
+                    alertHTML += `<li>${erro}</li>`;
+                });
+                alertHTML += '</ul>';
+            }
+            
+            alertHTML += '</div>';
+            
+            alertContainer.innerHTML = alertHTML;
+            
+            // Remover alerta após 5 segundos
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Função para carregar produtos
+        async function carregarProdutos() {
+            const container = document.getElementById('produtosContainer');
+            
+            try {
+                const response = await fetch('/produtos');
+                
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar produtos');
+                }
+                
+                const produtos = await response.json();
+                
+                if (produtos.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <p>Nenhum produto cadastrado ainda.</p>
+                            <p>Cadastre seu primeiro produto usando o formulário ao lado!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Renderizar produtos
+                container.innerHTML = '<div class="products-grid"></div>';
+                const grid = container.querySelector('.products-grid');
+                
+                produtos.forEach(produto => {
+                    const produtoCard = document.createElement('div');
+                    produtoCard.className = 'product-card';
+                    
+                    const imagemUrl = produto.imagem_url || 'https://via.placeholder.com/300x200/1e293b/10b981?text=Sem+Imagem';
+                    
+                    produtoCard.innerHTML = `
+                        <img src="${imagemUrl}" alt="${produto.titulo}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200/1e293b/10b981?text=Imagem+Indisponível'">
+                        <div class="product-content">
+                            <h3 class="product-title">${produto.titulo}</h3>
+                            <span class="product-category">${produto.categoria}</span>
+                            <p class="product-description">${produto.descricao || 'Sem descrição'}</p>
+                            <div class="product-price">R$ ${parseFloat(produto.preco).toFixed(2)}</div>
+                            <div class="product-actions">
+                                <button class="btn btn-danger" onclick="deletarProduto('${produto.id}')">
+                                    🗑️ Excluir
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(produtoCard);
+                });
+                
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="alert alert-error">
+                        <strong>Erro ao carregar produtos:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Função para cadastrar produto
+        async function cadastrarProduto(event) {
+            event.preventDefault();
+            
+            const formData = {
+                titulo: document.getElementById('titulo').value,
+                descricao: document.getElementById('descricao').value,
+                preco: document.getElementById('preco').value,
+                categoria: document.getElementById('categoria').value,
+                imagem_url: document.getElementById('imagem_url').value
+            };
+            
+            try {
+                const response = await fetch('/produtos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const resultado = await response.json();
+                
+                if (resultado.sucesso) {
+                    mostrarAlerta('success', resultado.mensagem);
+                    document.getElementById('produtoForm').reset();
+                    carregarProdutos(); // Recarregar lista
+                } else {
+                    mostrarAlerta('error', 'Erro de validação:', resultado.erros);
+                }
+                
+            } catch (error) {
+                mostrarAlerta('error', 'Erro ao cadastrar produto: ' + error.message);
+            }
+        }
+
+        // Função para deletar produto
+        async function deletarProduto(id) {
+            if (!confirm('Tem certeza que deseja excluir este produto?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/produtos/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                const resultado = await response.json();
+                
+                if (resultado.sucesso) {
+                    carregarProdutos(); // Recarregar lista
+                } else {
+                    alert('Erro ao excluir produto: ' + resultado.erro);
+                }
+                
+            } catch (error) {
+                alert('Erro ao excluir produto: ' + error.message);
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('produtoForm').addEventListener('submit', cadastrarProduto);
+
+        // Carregar produtos ao iniciar a página
+        document.addEventListener('DOMContentLoaded', carregarProdutos);
+    </script>
+</body>
+</html>
