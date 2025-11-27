@@ -1,0 +1,5 @@
+# config_local.py - EXEMPLO
+# Copie este arquivo para config_local.py e adicione suas credenciais
+
+# Token da API do Airtable
+# AIRTABLE_API_TOKEN_LOCAL = "seu_token_aqui"

@@ -41,21 +41,24 @@ pip install flask requests flask-cors
 
 ### Passo 2: Configuração do Airtable
 
-**Opção 1: Usar valores padrão (para desenvolvimento local)**
-As credenciais já estão configuradas no código com valores padrão.
+**IMPORTANTE**: As credenciais da API não estão no código por segurança.
 
-**Opção 2: Usar variáveis de ambiente (recomendado para produção)**
-Defina as seguintes variáveis de ambiente:
-```bash
-set AIRTABLE_BASE_ID=seu_base_id
-set AIRTABLE_API_TOKEN=seu_token
-set AIRTABLE_TABLE_NAME=Produtos
-```
+**Para configurar localmente:**
 
-**Credenciais do projeto (apenas para referência):**
+1. Copie o arquivo de exemplo:
+   ```bash
+   copy config_local.py.example config_local.py
+   ```
+
+2. Edite `config_local.py` e adicione seu token:
+   ```python
+   AIRTABLE_API_TOKEN_LOCAL = "seu_token_aqui"
+   ```
+
+**Credenciais do projeto:**
 - BASE_ID: `appCLOkNeG69OCs6H`
 - TABELA: `Produtos`
-- API_TOKEN: Configurado no código (não exposto aqui por segurança)
+- API_TOKEN: Configure no arquivo `config_local.py` (não versionado)
 
 **Estrutura da Tabela no Airtable:**
 A tabela "Produtos" deve ter as seguintes colunas:
